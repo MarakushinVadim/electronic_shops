@@ -6,7 +6,7 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-8=tx2e15izst=1r-1v(mfk#hw!0q&e@b%7so+85xw-7hsj=^#3'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = True
 
@@ -58,11 +58,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "electronic_shop",
-        "HOST": "localhost",
-        "PORT": "5432",
-        "USER": "postgres",
-        "PASSWORD": "Oblivion94$",
+        "NAME": os.getenv('NAME'),
+        "HOST": os.getenv('HOST'),
+        "PORT": os.getenv('PORT'),
+        "USER": os.getenv('USER'),
+        "PASSWORD": os.getenv('PASSWORD'),
     }
 }
 
