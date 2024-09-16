@@ -10,8 +10,9 @@ class ShopValidator:
     def __call__(self, instance):
         node_type = getattr(instance, self.node_type)
         supplier = getattr(instance, self.supplier)
-        if node_type == 0 and supplier.id == self.pk:
-            raise ValidationError('У завода не может быть поставщика.')
+        if supplier:
+            if node_type == 0:
+                raise ValidationError('У завода не может быть поставщика.')
         if node_type == 1 and supplier is not None:
             if supplier.node_type not in [0, 2]:
                 raise ValidationError(

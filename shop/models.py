@@ -8,6 +8,10 @@ class Product(models.Model):
     model = models.CharField(max_length=255, verbose_name="Модель")
     release_date = models.DateField(verbose_name="Дата выхода продукта на рынок")
 
+    class Meta:
+        verbose_name = 'Продукт'
+        verbose_name_plural = 'Продукты'
+
     def __str__(self):
         return f"{self.name} ({self.model})"
 
@@ -31,6 +35,10 @@ class ShopNode(models.Model):
     supplier = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='Поставщик', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     node_type = models.IntegerField(choices=NODE_TYPES, verbose_name='Тип узла')
+
+    class Meta:
+        verbose_name = 'Звено'
+        verbose_name_plural = 'Звенья'
 
     def __str__(self):
         return self.name
