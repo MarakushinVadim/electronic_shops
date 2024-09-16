@@ -1,11 +1,12 @@
-from rest_framework import serializers, permissions
-from .models import ShopNode, Product
+from rest_framework import permissions, serializers
+
+from .models import Product, ShopNode
 
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = "__all__"
 
 
 class ShopNodeSerializer(serializers.ModelSerializer):
@@ -13,11 +14,11 @@ class ShopNodeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShopNode
-        fields = '__all__'
-        read_only_fields = ('debt',)
+        fields = "__all__"
+        read_only_fields = ("debt",)
 
     def create(self, validated_data):
-        products_data = validated_data.pop('products')
+        products_data = validated_data.pop("products")
         shop_node = ShopNode.objects.create(**validated_data)
         for product_data in products_data:
             product, created = Product.objects.get_or_create(**product_data)
@@ -27,7 +28,7 @@ class ShopNodeSerializer(serializers.ModelSerializer):
         return shop_node
 
     def update(self, instance, validated_data):
-        products_data = validated_data.pop('products')
+        products_data = validated_data.pop("products")
         instance = super().update(instance, validated_data)
         instance.products.clear()
         for product_data in products_data:
