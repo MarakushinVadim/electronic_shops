@@ -8,6 +8,8 @@ from .serializers import ProductSerializer, ShopNodeSerializer
 
 
 class ShopNodeViewSet(viewsets.ModelViewSet):
+    # Так как simple JWT не авторизует неактивных пользователей
+    # Нет смысла создавать отдельный permission class для проверки активности учетной записи
     queryset = ShopNode.objects.all()
     serializer_class = ShopNodeSerializer
 
@@ -15,7 +17,7 @@ class ShopNodeViewSet(viewsets.ModelViewSet):
     filterset_fields = ("country",)
 
     def update(self, request, *args, **kwargs):
-        """Запрет обновления поля 'Задолженность перед поставщиком в API интерфейсе'"""
+        # Тут ставится запрет на обновления поля 'debt' 
         partial = kwargs.pop("partial", False)
         instance = self.get_object()
         if "debt" in request.data:
@@ -26,6 +28,7 @@ class ShopNodeViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def get_queryset(self):
+        # Фильтрация объектов по определенной стране 
         queryset = super().get_queryset()
         country = self.request.query_params.get("country")
         if country:
